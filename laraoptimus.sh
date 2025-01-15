@@ -18,13 +18,17 @@ if ! [ -f artisan ]; then
 fi
 
 echo "This script clears the existing cache and re-generates it."
-echo "Are you sure you want to continue? (y/n)"
-read answer
-if [ "$answer" != "${answer#[Yy]}" ] ;then
-    # Run artisan commands to clear and regenerate cache
-    php artisan optimize:clear || error_exit "Failed to clear the cache."
-    php artisan optimize || error_exit "Failed to regenerate the cache."
+while true; do
+    read -p "Are you sure you want to continue? (y/n)" answer
+    case ${answer:0:1} in
+        y|Y )
+            # Run artisan commands to clear and regenerate cache
+            php artisan optimize:clear || error_exit "Failed to clear the cache."
+            php artisan optimize || error_exit "Failed to regenerate the cache."
 
-    echo "Cache cleared and re-generated successfully!"
-fi
-error_exit "Aborting..."
+            echo "Cache cleared and re-generated successfully!"
+        ;;
+        n|N ) error_exit "Aborting...";;
+        * ) echo "Please answer y or n.";;
+    esac
+done
