@@ -27,6 +27,7 @@ while true; do
             php artisan optimize || error_exit "Failed to regenerate the cache."
 
             echo "Cache cleared and re-generated successfully!"
+            exit
         ;;
         n|N ) error_exit "Aborting...";;
         * ) echo "Please answer y or n.";;
