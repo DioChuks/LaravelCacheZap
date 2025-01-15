@@ -21,11 +21,10 @@ echo "This script clears the existing cache and re-generates it."
 echo "Are you sure you want to continue? (y/n)"
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
-    error_exit "Aborting."
+    # Run artisan commands to clear and regenerate cache
+    php artisan optimize:clear || error_exit "Failed to clear the cache."
+    php artisan optimize || error_exit "Failed to regenerate the cache."
+
+    echo "Cache cleared and re-generated successfully!"
 fi
-
-# Run artisan commands to clear and regenerate cache
-php artisan optimize:clear || error_exit "Failed to clear the cache."
-php artisan optimize || error_exit "Failed to regenerate the cache."
-
-echo "Cache cleared and re-generated successfully!"
+error_exit "Aborting..."
